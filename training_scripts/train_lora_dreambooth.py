@@ -490,7 +490,7 @@ def main(args):
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         mixed_precision=args.mixed_precision,
         log_with="tensorboard",
-        logging_dir=logging_dir,
+        project_dir=logging_dir,
     )
 
     # Currently, it's not possible to do gradient accumulation when training two models with accelerate.accumulate
@@ -840,7 +840,7 @@ def main(args):
             encoder_hidden_states = text_encoder(batch["input_ids"])[0]
 
             # Predict the noise residual
-            model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
+            model_pred = unet(sample = noisy_latents, timestep= timesteps, encoder_hidden_states=encoder_hidden_states).sample
 
             # Get the target for loss depending on the prediction type
             if noise_scheduler.config.prediction_type == "epsilon":
